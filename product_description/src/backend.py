@@ -40,17 +40,21 @@ def generate_product_description(product_url):
     pipeline.connect("splitter.documents", "prompt_builder.documents")
     pipeline.connect("prompt_builder.prompt", "llm.prompt")
 
-    question = "Generate a brief product description based on the available information. Focus on the technical details of the product."
+    question = """
+    Summarize the available information to generate a brief product description in no more than 5 sentences. 
+    """
 
     print("start pipeline")
     result = pipeline.run({"prompt_builder": {"question": question},
                    "fetcher": {"urls": [product_url]}})
     product_description = result['llm']['replies'][0]
     print("finish pipeline")
+    print(product_description)
     return product_description
 
 def run_test():
     product_url = "https://www.brother.com.au/en/products/all-printers/printers/mfc-l9670cdn"
     generate_product_description(product_url)
 
-# run_test
+# test
+# run_test()
